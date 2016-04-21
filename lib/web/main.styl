@@ -1,0 +1,182 @@
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/~~~---~~~/fonts/Lato/Lato-Regular.ttf')
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 200;
+  src: url('/~~~---~~~/fonts/Lato/Lato-Light.ttf')
+}
+
+body {
+  font-family: 'Lato'
+  font-weight: 200
+  background: #fff
+
+  &.failure {
+    background: #FFF7F7
+  }
+
+  svg {
+    &#icons {
+      position: absolute
+      top: -99999em
+      left: -99999em
+    }
+
+    #icon-waiting {
+      path {
+        animation: icon 3s linear infinite
+      }
+    }
+
+    path.animated {
+      animation: icon 3s linear infinite
+    }
+
+    @keyframes icon {
+      from {
+        transform: translateX(10px)
+      }
+      to {
+        transform: translateX(-10px)
+      }
+    }
+  }
+
+  div#progress {
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    height: 2px
+    background: #2FB3E5
+    transform: scaleX(0)
+    transform-origin: 0
+    transition: transform 250ms linear
+  }
+
+  &.failure {
+    div#progress {
+      background: #e5462f
+      transform: scaleX(1) !important
+    }
+  }
+
+  ul#tabs {
+    list-style: none
+    color: #929fae
+    user-select: none
+
+    li {
+      padding: 20px 40px
+      display: inline-block
+      position: absolute
+      left: 100%
+      top: 6px
+      white-space: nowrap
+      transition: all 250ms ease, border-bottom-color 100ms linear
+      cursor: pointer
+      opacity: 0
+      border-bottom: 5px solid transparent
+
+      &.selected {
+        color: #2B333C
+      }
+
+      &:hover {
+        border-bottom-color: #DCE8E7
+      }
+
+      svg {
+        display: inline-block
+        vertical-align: baseline
+        position: relative
+        top: 3px
+        margin-left: 8px
+      }
+    }
+  }
+
+  #focus {
+    position: absolute
+    height: 5px
+    left: 100%
+    background: #7ee2a9
+    top: 65px
+    transition: left 250ms ease
+  }
+
+  &.failure {
+    #focus {
+      background: #E5462F
+    }
+  }
+
+  section#console {
+    position: absolute
+    left: 0
+    right: 0
+    top: 70px
+    bottom: 0
+    background: #263238
+    color: #aabbc3
+
+    pre {
+      display: none
+      position: absolute
+      left: 0
+      top: 0
+      right: 0
+      bottom: 0
+      overflow-x: none
+      overflow-y: scroll
+      padding: 10px 20px
+      line-height: 1.5em
+      white-space: pre-wrap
+
+      &.selected {
+        display: block
+      }
+
+      .ansi-black-fg { color: #49656f }
+      .ansi-red-fg { color: #ed5866 }
+      .ansi-green-fg { color: #c3e88d }
+      .ansi-yellow-fg { color: #ffeb95 }
+      .ansi-blue-fg { color: #82b1ff }
+      .ansi-magenta-fg { color: #ae94dd }
+      .ansi-cyan-fg { color: #82F7FF }
+      .ansi-white-fg { color: #FFFFFF }
+      .ansi-bright-black-fg { color: #49656f }
+      .ansi-bright-red-fg { color: #ed5866 }
+      .ansi-bright-green-fg { color: #c3e88d }
+      .ansi-bright-yellow-fg { color: #ffeb95 }
+      .ansi-bright-blue-fg { color: #82b1ff }
+      .ansi-bright-magenta-fg { color: #ae94dd }
+      .ansi-bright-cyan-fg { color: #82F7FF }
+      .ansi-bright-white-fg { color: #FFFFFF }
+
+      .ansi-black-bg { background-color: #000000 }
+      .ansi-red-bg { background-color: #ed5866 }
+      .ansi-green-bg { background-color: #c3e88d }
+      .ansi-yellow-bg { background-color: #ffeb95 }
+      .ansi-blue-bg { background-color: #82b1ff }
+      .ansi-magenta-bg { background-color: #ae94dd }
+      .ansi-cyan-bg { background-color: #82F7FF }
+      .ansi-white-bg { background-color: #FFFFFF }
+      .ansi-bright-black-bg { background-color: #000000 }
+      .ansi-bright-red-bg { background-color: #ed5866 }
+      .ansi-bright-green-bg { background-color: #c3e88d }
+      .ansi-bright-yellow-bg { background-color: #ffeb95 }
+      .ansi-bright-blue-bg { background-color: #82b1ff }
+      .ansi-bright-magenta-bg { background-color: #ae94dd }
+      .ansi-bright-cyan-bg { background-color: #82F7FF }
+      .ansi-bright-white-bg { background-color: #FFFFFF }
+    }
+  }
+
+}

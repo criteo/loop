@@ -1,0 +1,31 @@
+{
+  "name": "devloop",
+  "version": "0.1.0",
+  "description": "Awesome dev loop — enhance your web application development workflow",
+  "author": "Guillaume Bort. <g.bort@criteo.com> (http://www.criteo.com)",
+  "contributors": [
+    "Sheng Ran. <s.ran@criteo.com>",
+    "Justin Coffey. <j.coffey@criteo.com>"
+  ],
+  "dependencies": {
+    "ansi_up": "1.3.x",
+    "babel-core": "6.3.x",
+    "babel-preset-es2015": "6.3.x",
+    "chokidar": "^1.4.3",
+    "http-proxy": "1.12.x",
+    "jquery": "~2.2.x",
+    "minimatch": "3.0.x",
+    "randomstring": "1.1.x",
+    "rx": "~4.0.x",
+    "stylus": "0.53.x",
+    "terminal-kit": "0.16.8"
+  },
+  "bin": {
+    "loop": "bin/main.js"
+  },
+  "preferGlobal": true,
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "license": "Apache 2.0"
+}
