@@ -43,7 +43,7 @@ And then use it by running the `node_modules/.bin/loop` command.
 
 #### Run the dev loop
 
-Run the `loop` command in any _looped_ project, ie. a project that contain a `devloop.js` definition file. This file defines the several tasks needed to run the project in _development mode_.
+Run the `loop` command in any _looped_ project, ie. a project that contain a `devloop.js` definition file (see the [Docs](#docs)). This file defines the several tasks needed to run the project in development mode.
 
 ```javascript
 $ cd my_looped_webapp/
@@ -55,7 +55,7 @@ You can then point your browser to http://localhost:8080. It will run the build 
 
 If you have changed some files in your project, just reload the page in your browser. The needed build step will be run again.
 
-Pressing `r` in the terminal while loop is running will force the server task to restart. Pressing `x` will kill the current build and restart from scratch.
+Pressing `r` in the terminal while **loop** is running will force the server task to restart. Pressing `x` will kill the current build and restart from scratch.
 
 ### Docs
 
@@ -94,25 +94,24 @@ let server = runServer({
 })
 ```
 
-Here, as soon as a jar file change in the lib directory, the server will be marked dirty, and will restart at the next page reload.
-
+Here, as soon as a jar file change in the lib directory, the server will be marked dirty, and will restart at the next page reload. The `httpPort` variable here is injected to the main scope by **loop**, and is set to a random, available TCP port. You are free to use it or not.
 
 ##### proxy(serverTask, httpPort)
 
-Starts a reverse proxy at `httpPort`. The RP will start serving the application as soon the `serverTask` is ready, and all its further dependencies are ready as well.
+Starts a reverse proxy at `httpPort`. The RP will start serving the application as soon the `serverTask` is ready, and all its dependencies are ready as well.
 
 ##### run(options)
 
-Run a task. A task can be any process that can be forked. loop wait for the status exit of the process, and decide id the task was successful or not.
+Run a task. A task can be any process that can be forked. **loop** waits for the status exit of the process, and decide id the task was successful or not.
 
 Options:
 
 - `name`: _String_, the task label in th UI.
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
-- `command`: _Array of String_, the command + options to fork.
+- `command`: _Array of String_, the command + options to fork (if not using sh).
 - `cwd`: _String_, the current directory for the task.
-- `env`: _Array of String_, the environment for the task.
-- `watch`: _String or Array of String_, the file pattern to watch.
+- `env`: _Object_, the environment for the task.
+- `watch`: _String or Array of String_, the file patterns to watch.
 
 ##### runServer(options)
 
@@ -121,25 +120,25 @@ Start a _server_ task. A server task is different from a standard task because *
 Options:
 
 - `name`: _String_, the task label in th UI.
-- `httpPort`: _Number_, the http port that will be opened when the server is ready.
+- `httpPort`: _Number_, the http port the server listens on.
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
-- `command`: _Array of String_, the command + options to fork.
+- `command`: _Array of String_, the command + options to fork (if not using sh).
 - `cwd`: _String_, the current directory for the task.
-- `env`: _Array of String_, the environment for the task.
-- `watch`: _String or Array of String_, the file pattern to watch.
+- `env`: _Object_, the environment for the task.
+- `watch`: _String or Array of String_, the file patterns to watch.
 
 ##### maven(options)
 
-Basically the same as `run` but colorize the output. It is the only advantage to use this instead of a plain `run` task.
+Basically the same as using `run({sh: 'maven'})` but colorize the Maven output. It is the only advantage to use this instead of a plain `run` task.
 
 Options:
 
 - `name`: _String_, the task label in th UI.
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
-- `command`: _Array of String_, the command + options to fork.
+- `command`: _Array of String_, the command + options to fork (if not using sh).
 - `cwd`: _String_, the current directory for the task.
-- `env`: _Array of String_, the environment for the task.
-- `watch`: _String or Array of String_, the file pattern to watch.
+- `env`: _Object_, the environment for the task.
+- `watch`: _String or Array of String_, the file patterns to watch.
 
 ##### startSbt(options)
 
@@ -149,10 +148,10 @@ Options:
 
 - `name`: _String_, the task label in th UI.
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
-- `command`: _Array of String_, the command + options to fork.
+- `command`: _Array of String_, the command + options to fork (if not using sh).
 - `cwd`: _String_, the current directory for the task.
-- `env`: _Array of String_, the environment for the task.
-- `watch`: _String or Array of String_, the file pattern to watch.
+- `env`: _Object_, the environment for the task.
+- `watch`: _String or Array of String_, the file patterns to watch.
 
 The returned sbt session allow top create more sbt tasks using `run` with these options:
 
@@ -163,14 +162,14 @@ The returned sbt session allow top create more sbt tasks using `run` with these 
 
 Some example configurations are available in the `examples/` directory:
 
-- **dummy-project**: Show the basics of loop. The 'Hello world' for loop.
+- **dummy-project**: The 'Hello world' for **loop**; just shows the basics.
 - **node-project**: A sample node project, with some frontend assets build with webpack and stylus.
 
 ### FAQ
 
 #### Will loop replace my build system?
 
-Not at all, loop is not another build system, it will just run your build systems for you. Think about it as a bot that will run all the command you usually run yourself in a terminal while you are developing.
+Not at all, **loop** is not another build system, it will just run your build systems for you. Think about it as a bot that will run all the command you usually run yourself in a terminal while you are developing.
 
 #### I use loop, but the build step is too long. My dev workflow was not improved :(
 
@@ -178,10 +177,10 @@ You probably need to split down your build pipeline into smaller parts. Actually
 
 #### When loop restart my server I'm logged out/my application crash
 
-Yes if you use a server that does not support automatic code reload, loop will have to restart the server process. But in a well designed application it should not log you out. There is several way to store the session state outside of the server process (either on client side or in a datastore which is not tied to the actual server code version). Yes it will help your development process but also it will help you at deployment time if you want to run your code on several application server.
+Yes if you use a server that does not support automatic code reload, **loop** will have to restart the server process. But in a well designed application it should not log you out. There is several way to store the session state outside of the server process (either on client side or in a datastore which is not tied to the actual server code version). Yes it will help your development process but also it will help you at deployment time if you want to run your code on several application server.
 
 ### License
 This project is licensed under the Apache 2.0 license.
 
 ### Copyright
-Copyright © Criteo, 2016.
+Copyright © [Criteo](http://labs.criteo.com), 2016.
