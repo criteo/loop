@@ -55,6 +55,8 @@ You can then point your browser to http://localhost:8080. It will run the build 
 
 If you have changed some files in your project, just reload the page in your browser. The needed build step will be run again.
 
+Pressing `r` in the terminal while loop is running will force the server task to restart. Pressing `x` will kill the current build and restart from scratch.
+
 ### Docs
 
 The development tasks are described in a file named `devloop.js` located at your project root. This is a javascript file, declaring several "tasks" and their dependencies. There are two mandatory tasks: the `proxy` one, and the `server` one.
