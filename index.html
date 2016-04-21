@@ -1,0 +1,137 @@
+
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" media="screen" href="style.css" />
+    </head>
+    <body>
+      <h1 id="loop">loop</h1>
+<h2 id="awesome-dev-loop-enhance-your-web-application-development-workflow">Awesome dev loop — enhance your web application development workflow</h2>
+<ul>
+<li><a href="#why">Why?</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#docs">Docs</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#faq">FAQ</a></li>
+</ul>
+<h3 id="why-">Why?</h3>
+<p>Working on today&#39;s web applications requires to manage several build systems. For example you will use <code>sbt</code>, <code>cargo</code>, <code>cake</code>, <code>go build</code> or <code>maven</code> to compile your backend; <code>webpack</code>, <code>grunt</code> or <code>gulp</code> to build your frontend; <code>npm</code> or <code>bower</code> to fetch some dependencies; plus a bunch of <code>sql</code> or <code>bash</code> scripts to reset your data...oh, and you have to  restart your server after a change if it does not auto-reload for you.</p>
+<p>If you are not using a full-stack integrated web framework that manage that for you, your development workflow (thus your productivity) probably suffers a lot.</p>
+<p><strong>loop</strong> enhances your workflow by managing all these repetitive steps. It sits in front of your application, and run all the needed build tasks before starting your server. Then it monitors the filesystem changes and rebuild and restart if needed.</p>
+<p>Because it is external to your project, it is agnostic to your technology choices, whatever build system and setup you prefer. It just runs your build tasks and monitor the results.</p>
+<p>And because everything happen in your browser, you can stay focus on your work: edit your source code, click reload in your browser and see the result!</p>
+<h3 id="usage">Usage</h3>
+<p><strong>loop</strong> is a command line tool that need to be installed from npm.</p>
+<h4 id="install-globally">Install globally</h4>
+<pre><code>$ npm install --global devloop
+</code></pre><p>And then you can use it in any project, by running the <code>loop</code> command.</p>
+<h4 id="install-locally-to-a-project">Install locally to a project</h4>
+<p>If you do not want to install it globally, you can also install a specific version in your project dependencies.</p>
+<pre><code>$ npm install --save-dev devloop
+</code></pre><p>And then use it by running the <code>node_modules/.bin/loop</code> command.</p>
+<h4 id="run-the-dev-loop">Run the dev loop</h4>
+<p>Run the <code>loop</code> command in any <em>looped</em> project, ie. a project that contain a <code>devloop.js</code> definition file. This file defines the several tasks needed to run the project in <em>development mode</em>.</p>
+<pre><code class="lang-javascript">$ cd my_looped_webapp/
+$ loop
+=&gt; Now browse to http://localhost:8080
+</code></pre>
+<p>You can then point your browser to <a href="http://localhost:8080">http://localhost:8080</a>. It will run the build and stream the result to the browser. Once the build is done, your server is started, and your application served.</p>
+<p>If you have changed some files in your project, just reload the page in your browser. The needed build step will be run again.</p>
+<h3 id="docs">Docs</h3>
+<p>The development tasks are described in a file named <code>devloop.js</code> located at your project root. This is a javascript file, declaring several &quot;tasks&quot; and their dependencies. There are two mandatory tasks: the <code>proxy</code> one, and the <code>server</code> one.</p>
+<p>Therefore, a minimal <code>devloop.js</code> file looks like:</p>
+<pre><code class="lang-javascript">&#39;use strict&#39;
+
+let server = runServer({
+  httpPort,
+  sh: `python -m SimpleHTTPServer ${httpPort}`
+})
+
+proxy(server, 8080)
+</code></pre>
+<p>It starts the reverse proxy on port 8080, and run the server task before serving the application.</p>
+<p>Any task can also declare further dependencies, for example:</p>
+<pre><code class="lang-javascript">proxy(server, 8080).dependsOn(webpack, less)
+</code></pre>
+<p>In this case the proxy will start serving the application when the server is ready, and the <code>webpack</code>and <code>less</code> tasks have completed as well.</p>
+<p>Finally, tasks can watch the filesystem, and restart themselves if something change. Of course, if a task restart, all its dependencies will restart as well:</p>
+<pre><code class="lang-javascript">let server = runServer({
+  httpPort,
+  sh: `java -cp &quot;lib/*&quot; MyServer`,
+  watch: &#39;lib/**&#39;
+})
+</code></pre>
+<p>Here, as soon as a jar file change in the lib directory, the server will be marked dirty, and will restart at the next page reload.</p>
+<h5 id="proxy-servertask-httpport-">proxy(serverTask, httpPort)</h5>
+<p>Starts a reverse proxy at <code>httpPort</code>. The RP will start serving the application as soon the <code>serverTask</code> is ready, and all its further dependencies are ready as well.</p>
+<h5 id="run-options-">run(options)</h5>
+<p>Run a task. A task can be any process that can be forked. loop wait for the status exit of the process, and decide id the task was successful or not.</p>
+<p>Options:</p>
+<ul>
+<li><code>name</code>: <em>String</em>, the task label in th UI.</li>
+<li><code>sh</code>: <em>String</em>, the shell command to fork (requires Linux, MacOS, or running on Cygwin).</li>
+<li><code>command</code>: <em>Array of String</em>, the command + options to fork.</li>
+<li><code>cwd</code>: <em>String</em>, the current directory for the task.</li>
+<li><code>env</code>: <em>Array of String</em>, the environment for the task.</li>
+<li><code>watch</code>: <em>String or Array of String</em>, the file pattern to watch.</li>
+</ul>
+<h5 id="runserver-options-">runServer(options)</h5>
+<p>Start a <em>server</em> task. A server task is different from a standard task because <strong>loop</strong> does not wait the process to exit to mark the task as successful. Instead, it waits for the http port opened by the server process to be available.</p>
+<p>Options:</p>
+<ul>
+<li><code>name</code>: <em>String</em>, the task label in th UI.</li>
+<li><code>httpPort</code>: <em>Number</em>, the http port that will be opened when the server is ready.</li>
+<li><code>sh</code>: <em>String</em>, the shell command to fork (requires Linux, MacOS, or running on Cygwin).</li>
+<li><code>command</code>: <em>Array of String</em>, the command + options to fork.</li>
+<li><code>cwd</code>: <em>String</em>, the current directory for the task.</li>
+<li><code>env</code>: <em>Array of String</em>, the environment for the task.</li>
+<li><code>watch</code>: <em>String or Array of String</em>, the file pattern to watch.</li>
+</ul>
+<h5 id="maven-options-">maven(options)</h5>
+<p>Basically the same as <code>run</code> but colorize the output. It is the only advantage to use this instead of a plain <code>run</code> task.</p>
+<p>Options:</p>
+<ul>
+<li><code>name</code>: <em>String</em>, the task label in th UI.</li>
+<li><code>sh</code>: <em>String</em>, the shell command to fork (requires Linux, MacOS, or running on Cygwin).</li>
+<li><code>command</code>: <em>Array of String</em>, the command + options to fork.</li>
+<li><code>cwd</code>: <em>String</em>, the current directory for the task.</li>
+<li><code>env</code>: <em>Array of String</em>, the environment for the task.</li>
+<li><code>watch</code>: <em>String or Array of String</em>, the file pattern to watch.</li>
+</ul>
+<h5 id="startsbt-options-">startSbt(options)</h5>
+<p>Starts a resident sbt build. This task return an sbt session that you can use to run further sbt commands. The main advantage of using this instead of the <code>run</code> task to run sbt directly, is that the sbt session is kept alive so running the sbt commands is then way faster. Espeacially for <code>scalac</code> commands.</p>
+<p>Options:</p>
+<ul>
+<li><code>name</code>: <em>String</em>, the task label in th UI.</li>
+<li><code>sh</code>: <em>String</em>, the shell command to fork (requires Linux, MacOS, or running on Cygwin).</li>
+<li><code>command</code>: <em>Array of String</em>, the command + options to fork.</li>
+<li><code>cwd</code>: <em>String</em>, the current directory for the task.</li>
+<li><code>env</code>: <em>Array of String</em>, the environment for the task.</li>
+<li><code>watch</code>: <em>String or Array of String</em>, the file pattern to watch.</li>
+</ul>
+<p>The returned sbt session allow top create more sbt tasks using <code>run</code> with these options:</p>
+<ul>
+<li><code>name</code>: <em>String</em>, the task label in th UI.</li>
+<li><code>command</code>: <em>String</em>, the sbt command to run.</li>
+</ul>
+<h3 id="examples">Examples</h3>
+<p>Some example configurations are available in the <code>examples/</code> directory:</p>
+<ul>
+<li><strong>dummy-project</strong>: Show the basics of loop. The &#39;Hello world&#39; for loop.</li>
+<li><strong>node-project</strong>: A sample node project, with some frontend assets build with webpack and stylus.</li>
+</ul>
+<h3 id="faq">FAQ</h3>
+<h4 id="will-loop-replace-my-build-system-">Will loop replace my build system?</h4>
+<p>Not at all, loop is not another build system, it will just run your build systems for you. Think about it as a bot that will run all the command you usually run yourself in a terminal while you are developing.</p>
+<h4 id="i-use-loop-but-the-build-step-is-too-long-my-dev-workflow-was-not-improved-">I use loop, but the build step is too long. My dev workflow was not improved :(</h4>
+<p>You probably need to split down your build pipeline into smaller parts. Actually a dev build pipeline is generally different than the one you use to build the distributed version of your project. It does not mean that you have to duplicate your build, just to compose it from smaller parts.</p>
+<h4 id="when-loop-restart-my-server-i-m-logged-out-my-application-crash">When loop restart my server I&#39;m logged out/my application crash</h4>
+<p>Yes if you use a server that does not support automatic code reload, loop will have to restart the server process. But in a well designed application it should not log you out. There is several way to store the session state outside of the server process (either on client side or in a datastore which is not tied to the actual server code version). Yes it will help your development process but also it will help you at deployment time if you want to run your code on several application server.</p>
+<h3 id="license">License</h3>
+<p>This project is licensed under the Apache 2.0 license.</p>
+<h3 id="copyright">Copyright</h3>
+<p>Copyright © Criteo, 2016.</p>
+
+    </body>
+  </html>
+  

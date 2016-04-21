@@ -1,0 +1,138 @@
+@import url(https://fonts.googleapis.com/css?family=Lora:400,400italic,700);
+
+body {
+  margin: 50px auto;
+  width: 650px;
+  font-family: Lora, serif;
+  background: #fff;
+  color: #282c37;
+  padding: 50px 0;
+  font-size: 0.9em;
+}
+
+a {
+  color: #54B7FF;
+}
+
+body > h1 {
+  text-align: center;
+  font-size: 4em;
+  font-weight: 700;
+  color: #54B7FF;
+  font-style: italic;
+}
+
+body > h2 {
+  text-align: center;
+  font-style: italic;
+  font-size: 1.6em;
+  font-weight: 300;
+  color: #8393A7;
+  margin-top: -20px;
+}
+
+body > ul:first-of-type {
+  padding: 20px;
+  margin-top: 80px;
+  list-style: none;
+  border-top: 1px solid #d9e1e8;
+  border-bottom: 1px solid #d9e1e8;
+  text-align: center;
+}
+
+body > ul:first-of-type > li {
+  display: inline-block;
+}
+
+body > ul:first-of-type > li > a {
+  font-size: 1em;
+  text-decoration: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #282c37;
+}
+
+body > h3 {
+  text-align: center;
+  font-size: 1.4em;
+  margin-top: 70px;
+  margin-bottom: 40px;
+  padding-top: 70px;
+  border-top: 1px solid #d9e1e8;
+}
+
+body > h3:first-of-type {
+  padding-top: 0;
+  border: none;
+}
+
+p {
+  line-height: 1.8em;
+}
+
+p > code, li > code  {
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  background-color: rgba(217, 225, 232, 0.54);
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+p > code::before, li > code::before {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+p > code::after, li > code::after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+
+body > h4 {
+  text-align: center;
+  font-style: italic;
+  font-size: 1em;
+  margin-top: 40px;
+  font-weight: 600;
+}
+
+body > pre {
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  padding: 16px;
+  overflow: auto;
+  line-height: 1.6;
+  background-color: rgba(217, 225, 232, 0.54);
+  border-radius: 3px;
+  margin: 30px 0;
+  font-size: 1.05em;
+}
+
+body > h5 {
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 1em;
+  margin-top: 40px;
+  font-weight: 600;
+}
+
+body > ul {
+  padding-left: 20px;
+}
+
+body > ul > li {
+  line-height: 1.6em;
+}
+
+#copyright, #license {
+  display: none;
+}
+
+#copyright ~ p, #license ~ p {
+  display: inline-block;
+  margin-top: 50px;
+  padding-top: 1px;
+  font-size: 0.8em;
+  color: #8393A7;
+}
