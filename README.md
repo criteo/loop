@@ -43,7 +43,7 @@ And then use it by running the `node_modules/.bin/loop` command.
 
 #### Run the dev loop
 
-Run the `loop` command in any _looped_ project, ie. a project that contain a `devloop.js` definition file (see the [Docs](#docs)). This file defines the several tasks needed to run the project in development mode.
+Run the `loop` command in any _looped_ project, ie. a project that contain a `devloop.js` definition file (see the [docs](#docs)). This file defines the several tasks needed to run the project in development mode.
 
 ```javascript
 $ cd my_looped_webapp/
@@ -164,6 +164,7 @@ Some example configurations are available in the `examples/` directory:
 
 - **dummy-project**: The 'Hello world' for **loop**; just shows the basics.
 - **node-project**: A sample node project, with some frontend assets build with webpack and stylus.
+- **java-project**: A sample java project, with some frontend assets build with webpack and stylus.
 
 ### FAQ
 
@@ -180,7 +181,9 @@ You probably need to split down your build pipeline into smaller parts. Actually
 Yes if you use a server that does not support automatic code reload, **loop** will have to restart the server process. But in a well designed application it should not log you out. There is several way to store the session state outside of the server process (either on client side or in a datastore which is not tied to the actual server code version). Yes it will help your development process but also it will help you at deployment time if you want to run your code on several application server.
 
 ### License
+
 This project is licensed under the Apache 2.0 license.
 
 ### Copyright
+
 Copyright © [Criteo](http://labs.criteo.com), 2016.
