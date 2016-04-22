@@ -6,6 +6,7 @@
 - [Docs](#docs)
 - [Examples](#examples)
 - [FAQ](#faq)
+- [Guthub](http://github.com/criteo/loop)
 
 ### Why?
 
