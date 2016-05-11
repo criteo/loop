@@ -1,4 +1,5 @@
-# loop
+# loop [![Build Status](https://travis-ci.org/criteo/loop.svg?branch=master)](https://travis-ci.org/criteo/loop)
+
 ## Awesome dev loop — enhance your web application development workflow
 
 - [Why?](#why)
