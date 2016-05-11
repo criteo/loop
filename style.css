@@ -22,6 +22,10 @@ body > h1 {
   font-style: italic;
 }
 
+body > h1 > a {
+  display: none;
+}
+
 body > h2 {
   text-align: center;
   font-style: italic;
