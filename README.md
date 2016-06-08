@@ -1,5 +1,7 @@
-# loop [![Build Status](https://travis-ci.org/criteo/loop.svg?branch=master)](https://travis-ci.org/criteo/loop)
-
+# loop
+[![Build Status](https://travis-ci.org/criteo/loop.svg?branch=master)](https://travis-ci.org/criteo/loop)
+[![npm version](https://badge.fury.io/js/devloop.svg)](https://badge.fury.io/js/devloop)
+[![Dependency Status](https://david-dm.org/criteo/loop.svg)](https://david-dm.org/criteo/loop)
 ## Awesome dev loop — enhance your web application development workflow
 
 - [Why?](#why)
