@@ -22,7 +22,7 @@ body > h1 {
   font-style: italic;
 }
 
-body > h1 > a {
+body > p:first-of-type {
   display: none;
 }
 
