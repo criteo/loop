@@ -14,7 +14,7 @@
     "chokidar": "^1.5.1",
     "http-proxy": "1.13.x",
     "jquery": "~2.2.x",
-    "minimatch": "3.0.x",
+    "minimatch": "3.0.2",
     "randomstring": "1.1.x",
     "rx": "~4.1.x",
     "stylus": "0.54.x",
