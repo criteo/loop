@@ -18,7 +18,8 @@
     "randomstring": "1.1.x",
     "rx": "~4.1.x",
     "stylus": "0.54.x",
-    "terminal-kit": "0.24.8"
+    "terminal-kit": "0.24.8",
+    "require-like": "0.1.2"
   },
   "bin": {
     "loop": "bin/main.js"
