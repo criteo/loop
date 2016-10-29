@@ -2,3 +2,10 @@ node_modules
 .DS_Store
 examples/**/dist
 examples/**/target
+*.log
+.settings/
+.checkstyle
+.classpath
+.idea/
+.project
+*.iml
