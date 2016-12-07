@@ -13,10 +13,8 @@
     "babel-preset-es2015": "6.9.x",
     "chokidar": "^1.5.1",
     "http-proxy": "1.13.x",
-    "jquery": "~2.2.x",
     "minimatch": "3.0.2",
     "randomstring": "1.1.x",
-    "rx": "~4.1.x",
     "stylus": "0.54.x",
     "terminal-kit": "0.24.8",
     "require-like": "0.1.2"
