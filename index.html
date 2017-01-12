@@ -119,6 +119,16 @@ proxy(server, 8080)
 <li><code>name</code>: <em>String</em>, the task label in th UI.</li>
 <li><code>command</code>: <em>String</em>, the sbt command to run.</li>
 </ul>
+<h5 id="webpackwatch-options-">webpackWatch(options)</h5>
+<p>Start webpack in watch mode in the background. The task will then just check that the last webpack run was successful before continuing. <em>It is way faster than running webpack from scratch each time, but can occasionally miss a webpack build failure because of the lack or real synchronization between the 2 processes.</em></p>
+<p>By default the command used is <code>webpack --watch --json</code>, you can customize it but it need to output its result in JSON, and to be run in watch mode of course.</p>
+<ul>
+<li><code>sh</code>: <em>String</em>, the shell command to fork (requires Linux, MacOS, or running on Cygwin).</li>
+<li><code>command</code>: <em>Array of String</em>, the command + options to fork (if not using sh).</li>
+<li><code>cwd</code>: <em>String</em>, the current directory for the task.</li>
+<li><code>env</code>: <em>Object</em>, the environment for the task.</li>
+<li><code>watch</code>: <em>String or Array of String</em>, the file patterns to watch.</li>
+</ul>
 <h3 id="examples">Examples</h3>
 <p>Some example configurations are available in the <code>examples/</code> directory:</p>
 <ul>
