@@ -202,4 +202,4 @@ This project is licensed under the Apache 2.0 license.
 
 ### Copyright
 
-Copyright © [Criteo](http://labs.criteo.com), 2016.
+Copyright © [Criteo](http://labs.criteo.com), 2017.
