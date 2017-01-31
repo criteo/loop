@@ -13,19 +13,19 @@
 
 ### Why?
 
-Working on today's web applications requires to manage several build systems. For example you will use `sbt`, `cargo`, `cake`, `go build` or `maven` to compile your backend; `webpack`, `grunt` or `gulp` to build your frontend; `npm` or `bower` to fetch some dependencies; plus a bunch of `sql` or `bash` scripts to reset your data...oh, and you have to  restart your server after a change if it does not auto-reload for you.
+Working on today's web applications requires managing several build systems. For example you will use `sbt`, `cargo`, `cake`, `go build` or `maven` to compile your backend; `webpack`, `grunt` or `gulp` to build your frontend; `npm` or `bower` to fetch some dependencies; plus a bunch of `sql` or `bash` scripts to reset your data...oh, and you have to restart your server after a change if it does not auto-reload for you.
 
-If you are not using a full-stack integrated web framework that manage that for you, your development workflow (thus your productivity) probably suffers a lot.
+If you are not using a full-stack integrated web framework that manages all that for you, your development workflow (thus your productivity) probably suffers a lot.
 
-**loop** enhances your workflow by managing all these repetitive steps. It sits in front of your application, and run all the needed build tasks before starting your server. Then it monitors the filesystem changes and rebuild and restart if needed.
+**loop** enhances your workflow by managing all these repetitive steps. It sits in front of your application, and runs all the needed build tasks before starting your server. Then it monitors the filesystem changes, rebuilding and restarting if needed.
 
-Because it is external to your project, it is agnostic to your technology choices, whatever build system and setup you prefer. It just runs your build tasks and monitor the results.
+Because it is external to your project, it is agnostic to your technology choices: you can use whatever build system and setup you prefer. It just runs your build tasks and monitors the results.
 
-And because everything happen in your browser, you can stay focus on your work: edit your source code, click reload in your browser and see the result!
+And because everything happens in your browser, you can stay focused on your work: edit your source code, click reload in your browser and see the result!
 
 ### Usage
 
-**loop** is a command line tool that need to be installed from npm.
+**loop** is a command line tool that needs to be installed from npm.
 
 #### Install globally
 
@@ -47,7 +47,7 @@ And then use it by running the `node_modules/.bin/loop` command.
 
 #### Run the dev loop
 
-Run the `loop` command in any _looped_ project, ie. a project that contain a `devloop.js` definition file (see the [docs](#docs)). This file defines the several tasks needed to run the project in development mode.
+Run the `loop` command in any _looped_ project, ie. a project that contains a `devloop.js` definition file (see the [docs](#docs)). This file defines the tasks needed to run the project in development mode.
 
 ```javascript
 $ cd my_looped_webapp/
@@ -55,15 +55,15 @@ $ loop
 => Now browse to http://localhost:8080
 ```
 
-You can then point your browser to http://localhost:8080. It will run the build and stream the result to the browser. Once the build is done, your server is started, and your application served.
+You can then point your browser to http://localhost:8080. It will run the build and stream the result to the browser. Once the build is done, your server is started and your application is served.
 
-If you have changed some files in your project, just reload the page in your browser. The needed build step will be run again.
+If you have changed some files in your project, just reload the page in your browser. The necessary build step will be run again.
 
 Pressing `r` in the terminal while **loop** is running will force the server task to restart. Pressing `x` will kill the current build and restart from scratch.
 
 ### Docs
 
-The development tasks are described in a file named `devloop.js` located at your project root. This is a javascript file, declaring several "tasks" and their dependencies. There are two mandatory tasks: the `proxy` one, and the `server` one.
+The development tasks are described in a file named `devloop.js` located at your project root. This is a javascript file, declaring several "tasks" and their dependencies. There are two mandatory tasks: `proxy`, and `server`.
 
 Therefore, a minimal `devloop.js` file looks like:
 
@@ -78,7 +78,7 @@ let server = runServer({
 proxy(server, 8080)
 ```
 
-It starts the reverse proxy on port 8080, and run the server task before serving the application.
+It starts the reverse proxy on port 8080, and runs the server task before serving the application.
 
 Any task can also declare further dependencies, for example:
 
@@ -88,7 +88,7 @@ proxy(server, 8080).dependsOn(webpack, less)
 
 In this case the proxy will start serving the application when the server is ready, and the `webpack`and `less` tasks have completed as well.
 
-Finally, tasks can watch the filesystem, and restart themselves if something change. Of course, if a task restart, all its dependencies will restart as well:
+Finally, tasks can watch the filesystem, and restart themselves if something changes. Of course, if a task restarts, all its dependencies will restart as well:
 
 ```javascript
 let server = runServer({
@@ -102,15 +102,15 @@ Here, as soon as a jar file change in the lib directory, the server will be mark
 
 ##### proxy(serverTask, httpPort)
 
-Starts a reverse proxy at `httpPort`. The RP will start serving the application as soon the `serverTask` is ready, and all its dependencies are ready as well.
+Starts a reverse proxy (RP) at `httpPort`. The RP will start serving the application as soon the `serverTask` and all its dependencies are ready.
 
 ##### run(options)
 
-Run a task. A task can be any process that can be forked. **loop** waits for the status exit of the process, and decide id the task was successful or not.
+Runs a task. A task can be any process that can be forked. **loop** waits for the exit status of the process, and decides whether the task was successful or not.
 
 Options:
 
-- `name`: _String_, the task label in th UI.
+- `name`: _String_, the task label in the UI.
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
 - `command`: _Array of String_, the command + options to fork (if not using sh).
 - `cwd`: _String_, the current directory for the task.
@@ -119,12 +119,12 @@ Options:
 
 ##### runServer(options)
 
-Start a _server_ task. A server task is different from a standard task because **loop** does not wait the process to exit to mark the task as successful. Instead, it waits for the http port opened by the server process to be available.
+Starts a _server_ task. A server task is different from a standard task because **loop** does not wait for the process to exit to mark it as successful. Instead, it waits for the http port opened by the server process to be available.
 
 Options:
 
-- `name`: _String_, the task label in th UI.
-- `httpPort`: _Number_, the http port the server listens on.
+- `name`: _String_, the task label in the UI.
+- `httpPort`: _Number_, the http port on which the server should listen.
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
 - `command`: _Array of String_, the command + options to fork (if not using sh).
 - `cwd`: _String_, the current directory for the task.
@@ -133,11 +133,11 @@ Options:
 
 ##### maven(options)
 
-Basically the same as using `run({sh: 'maven'})` but colorize the Maven output. It is the only advantage to use this instead of a plain `run` task.
+Basically the same as using `run({sh: 'maven'})` but colorizes the Maven output (the only advantage of using this instead of a plain `run` task).
 
 Options:
 
-- `name`: _String_, the task label in th UI.
+- `name`: _String_, the task label in the UI.
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
 - `command`: _Array of String_, the command + options to fork (if not using sh).
 - `cwd`: _String_, the current directory for the task.
@@ -146,27 +146,27 @@ Options:
 
 ##### startSbt(options)
 
-Starts a resident sbt build. This task return an sbt session that you can use to run further sbt commands. The main advantage of using this instead of the `run` task to run sbt directly, is that the sbt session is kept alive so running the sbt commands is then way faster. Espeacially for `scalac` commands.
+Starts a resident sbt build. This task returns an sbt session that you can use to run further sbt commands. The main advantage of using this instead of the `run` task to run sbt directly, is that the sbt session is kept alive so running the sbt commands is then way faster. Especially for `scalac` commands.
 
 Options:
 
-- `name`: _String_, the task label in th UI.
+- `name`: _String_, the task label in the UI.
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
 - `command`: _Array of String_, the command + options to fork (if not using sh).
 - `cwd`: _String_, the current directory for the task.
 - `env`: _Object_, the environment for the task.
 - `watch`: _String or Array of String_, the file patterns to watch.
 
-The returned sbt session allow top create more sbt tasks using `run` with these options:
+The returned sbt session allows can then create more sbt tasks using `run` with these options:
 
-- `name`: _String_, the task label in th UI.
+- `name`: _String_, the task label in the UI.
 - `command`: _String_, the sbt command to run.
 
 ##### webpackWatch(options)
 
-Start webpack in watch mode in the background. The task will then just check that the last webpack run was successful before continuing. _It is way faster than running webpack from scratch each time, but can occasionally miss a webpack build failure because of the lack or real synchronization between the 2 processes._
+Starts webpack in watch mode in the background. The task will then just check that the last webpack run was successful before continuing. _It is way faster than running webpack from scratch each time, but can occasionally miss a webpack build failure because of the lack of real synchronization between the two processes._
 
-By default the command used is `webpack --watch --json`, you can customize it but it need to output its result in JSON, and to be run in watch mode of course.
+By default the command used is `webpack --watch --json`. You can customize it, but it must output its result in JSON and it must be run in watch mode of course.
 
 - `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
 - `command`: _Array of String_, the command + options to fork (if not using sh).
@@ -186,15 +186,15 @@ Some example configurations are available in the `examples/` directory:
 
 #### Will loop replace my build system?
 
-Not at all, **loop** is not another build system, it will just run your build systems for you. Think about it as a bot that will run all the command you usually run yourself in a terminal while you are developing.
+Not at all, **loop** is not another build system, it will just run your build systems for you. Think about it as a bot that will run all the commands you usually run yourself in a terminal while you are developing.
 
 #### I use loop, but the build step is too long. My dev workflow was not improved :(
 
-You probably need to split down your build pipeline into smaller parts. Actually a dev build pipeline is generally different than the one you use to build the distributed version of your project. It does not mean that you have to duplicate your build, just to compose it from smaller parts.
+You probably need to split down your build pipeline into smaller parts. Actually, a dev build pipeline is generally different than the one you use to build the distributed version of your project. It does not mean that you have to duplicate your build; you just have to compose it from smaller parts.
 
-#### When loop restart my server I'm logged out/my application crash
+#### When loop restarts my server, I'm logged out/my application crashes
 
-Yes if you use a server that does not support automatic code reload, **loop** will have to restart the server process. But in a well designed application it should not log you out. There is several way to store the session state outside of the server process (either on client side or in a datastore which is not tied to the actual server code version). Yes it will help your development process but also it will help you at deployment time if you want to run your code on several application server.
+Yes, if you use a server that does not support automatic code reload, **loop** will have to restart the server process. But in a well designed application it should not log you out. There are several ways to store the session state outside of the server process (either on the client side or in a datastore which is not tied to the actual server code version). Yes, it will help your development process, but it will also help you at deployment time if you want to run your code on several application servers.
 
 ### License
 
