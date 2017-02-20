@@ -162,16 +162,12 @@ The returned sbt session allows can then create more sbt tasks using `run` with 
 - `name`: _String_, the task label in the UI.
 - `command`: _String_, the sbt command to run.
 
-##### webpackWatch(options)
+##### webpack(options)
 
-Starts webpack in watch mode in the background. The task will then just check that the last webpack run was successful before continuing. _It is way faster than running webpack from scratch each time, but can occasionally miss a webpack build failure because of the lack of real synchronization between the two processes._
+Start a resident webpack compiler and use it to build your project. It will use the webpack module installed in your project under `node_modules/webpack`. It is way faster to use this dedicated task than forking a new `webpack` command at each build.
 
-By default the command used is `webpack --watch --json`. You can customize it, but it must output its result in JSON and it must be run in watch mode of course.
-
-- `sh`: _String_, the shell command to fork (requires Linux, MacOS, or running on Cygwin).
-- `command`: _Array of String_, the command + options to fork (if not using sh).
-- `cwd`: _String_, the current directory for the task.
-- `env`: _Object_, the environment for the task.
+- `name`: _String_, the task label in th UI (default to *webpack*).
+- `config`: _String_, name of the webpack configuration file (default to *webpack.config.js*).
 - `watch`: _String or Array of String_, the file patterns to watch.
 
 ### Examples
