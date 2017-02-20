@@ -15,15 +15,14 @@ let stylus = run({
   watch: 'src/main/stylus/**/*.styl'
 }).dependsOn(npm, mkdir)
 
-let webpack = run({
+let javascript = webpack({
   name: 'javascript',
-  sh: './node_modules/.bin/webpack --bail',
   watch: ['src/main/javascript/**/*.js', 'webpack.config.js']
 }).dependsOn(npm, mkdir)
 
 let sbt = startSbt({
-    sh: 'sbt',
-      watch: ['build.sbt']
+  sh: 'sbt',
+  watch: ['build.sbt']
 })
 
 // without a watch, this will only run when build.sbt is updated
@@ -56,4 +55,4 @@ let server = runServer({
   sh: `java -cp "target/scala-2.11/finatra-assembly-0.1.0-deps.jar${platform == 'win32' ? ';': ':'}target/scala-2.11/classes" com.criteo.finatra.FinatraServerMain -http.port=:${httpPort} -admin.port=:9990`
 }).dependsOn(testServer)
 
-proxy(server, 8080).dependsOn(stylus, webpack, publicResources)
+proxy(server, 8080).dependsOn(stylus, javascript, publicResources)

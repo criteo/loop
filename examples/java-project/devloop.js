@@ -15,9 +15,8 @@ let stylus = run({
   watch: 'src/main/stylus/**/*.styl'
 }).dependsOn(npm, mkdir)
 
-let webpack = run({
+let javascript = webpack({
   name: 'javascript',
-  sh: './node_modules/.bin/webpack --bail',
   watch: ['src/main/javascript/**/*.js', 'webpack.config.js']
 }).dependsOn(npm, mkdir)
 
@@ -31,4 +30,4 @@ let server = runServer({
   sh: `java -cp target/classes loop.examples.Server ${httpPort}`
 }).dependsOn(compile)
 
-proxy(server, 8080).dependsOn(stylus, webpack)
+proxy(server, 8080).dependsOn(stylus, javascript)

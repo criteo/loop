@@ -15,9 +15,8 @@ let stylus = run({
   watch: 'app/**/*.styl'
 }).dependsOn(npm, mkdir)
 
-let webpack = run({
+let javascript = webpack({
   name: 'javascript',
-  sh: './node_modules/.bin/webpack --bail',
   watch: ['app/**/*.js', 'webpack.config.js']
 }).dependsOn(npm, mkdir)
 
@@ -27,4 +26,4 @@ let server = runServer({
   watch: 'server.js'
 }).dependsOn(npm)
 
-proxy(server, 8080).dependsOn(stylus, webpack)
+proxy(server, 8080).dependsOn(stylus, javascript)
